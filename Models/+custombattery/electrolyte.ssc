@@ -1,0 +1,35 @@
+component electrolyte
+% Electrolyte
+% The electrolyte is a special substance that allows ions to move between
+% the positive and negative electrodes during charging and discharging. It
+% is usually made of a mixture of salts, solvents, and additives. This mixture
+% is chosen to help ions move easily and to work well at different 
+% temperatures. The electrolyte usually presents itself in the form of a clear
+% liquid.
+
+nodes
+    L = custombattery.battery; % L:left
+    R = custombattery.battery; % R:right
+end
+
+parameters (ExternalAccess = none)
+    IR = { 1e-6, 'Ohm' }; % Resistance
+    D = { 1, 's/mol'}; % Resistance Ion
+end
+
+variables ( Access = private)
+    i = {0,'A'}; % Current 
+    q = {0,'mol/s'}; % Ion flux
+end
+
+branches
+    i : L.i -> R.i; % Electron flux measured in Ampere
+    q : L.q -> R.q; % Ion flux measured in mol/s
+end
+
+equations
+    L.v - R.v == -IR*i;
+    L.p - R.p == -D*q;
+end
+
+end

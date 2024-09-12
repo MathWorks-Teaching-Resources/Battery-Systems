@@ -1,0 +1,13 @@
+domain battery
+
+  variables
+    v   = {0,'V'}; % Electrical potential
+    p = {0,'1'}; % Chemical potential
+  end
+  
+  variables(Balancing = true)
+      i = {0,'A'}; % Electrical current
+      q = {0,'mol/s'}; % Ion flux
+  end
+
+end

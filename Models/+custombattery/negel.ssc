@@ -1,0 +1,76 @@
+component negel
+% Negative Electrode : 1 : fixed
+% The negative electrode is made of LiC6, during discharge the
+% negative electrode is the anode. The chemical reaction happening
+% at the negative electrode is the following:
+%
+% LiC6 <=> C6 + Li+ + e-
+%
+% where LiC6 consists of lithium atoms (Li) intercalated between graphite
+% C6 sheets, Li+ are lithium ion, and e- are electrons.
+%
+% While discharging, we read the chemical reaction from left to right,
+% the lithium (Li) dissociated into lithium ion (Li+) and electron
+% (e-), leaving behind the solid graphite (C6).
+%
+% While charging, the lithium ion (Li+) recombine with electrons (e-) to
+% form solid lithium (Li) into the graphite structure.
+
+
+nodes
+    External = custombattery.battery; % External
+    Internal = custombattery.battery; % Internal
+end
+
+annotations
+    External : Side = top;
+    Internal : Side = left;
+end
+
+
+variables ( Access = private )
+    C    = {0,'A*hr'};
+    SOC  = {0,'1'};
+end
+
+variables (ExternalAccess = none)
+    iExt = {0,'A'};
+    iInt = {0,'A'};
+    v    = {0,'V'};
+    qInt = {0,'mol/s'};
+    qExt = {0,'mol/s'};
+end
+
+parameters (ExternalAccess = none)
+    v0 = {0,'V'}; % Constant voltage
+    p0 = {0,'1'}; % Constant ion potential
+    C0   = {2.8,'A*hr'};
+end
+
+equations (Initial = true)
+    C == C0;
+end
+
+intermediates
+    i = iExt + iInt; 
+    q = i/{96320,'A/(mol/s)'}; 
+end
+
+branches
+    iExt : External.i -> *;
+    iInt : Internal.i -> *;
+    qInt : Internal.q -> *;
+    qExt : External.q -> *;
+end
+
+equations
+    i == der(C);
+    v == v0;
+    External.v == 0;
+    Internal.v == 0;
+    Internal.p == 0;
+    External.p == 0;
+    SOC == C/C0;
+end
+
+end

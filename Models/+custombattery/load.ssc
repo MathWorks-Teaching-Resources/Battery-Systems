@@ -1,0 +1,29 @@
+component load
+% Load : 1 : fixed
+% This block models the device powered by the battery.
+nodes
+    L = custombattery.battery; % L:left
+    R = custombattery.battery; % R:right
+end
+
+parameters ( ExternalAccess = none )
+    IR = { 1, 'Ohm' }; % Resistance
+    D = { 1e16, 's/mol'}; % Resistance Ion
+end
+
+variables ( Access = private )
+    i = {0,'A'}; % Current 
+    q = {0,'mol/s'}; % Ion flux
+end
+
+branches
+    i : L.i -> R.i;
+    q : L.q -> R.q;
+end
+
+equations
+    L.v - R.v == -IR*i;
+    L.p - R.p == -D*q;
+end
+
+end

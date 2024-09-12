@@ -1,0 +1,33 @@
+component separator
+% Separator
+% The separator membrane is made of very thn sheets of materials like
+% polyethylene or polypropulene. The materials are chosen because they
+% are good at letting ons pass through them but blocks the electrons from
+% going through.
+
+nodes
+    L = custombattery.battery; % L:Left
+    R = custombattery.battery; % R:Right
+end
+
+parameters ( ExternalAccess = none )
+    IR = { 1e16, 'Ohm' }; % Resistance
+    D = { 1, 's/mol'}; % Resistance Ion
+end
+
+variables ( Access = private )
+    i = {0,'A'}; % Current 
+    q = {0,'mol/s'}; % Ion flux
+end
+
+branches
+    i : L.i -> R.i;
+    q : L.q -> R.q;
+end
+
+equations
+    L.v - R.v == -IR*i;
+    L.p - R.p == -D*q;
+end
+
+end

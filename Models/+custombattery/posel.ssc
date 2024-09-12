@@ -1,0 +1,118 @@
+component posel
+% Positive Electrode : 1 : fixed
+% The positive electrode is made of LiCoO2, during discharge the
+% positive electrode is the cathode. The chemical reaction happening
+% at the positive electrode is the following:
+%
+% CoO2 + Li+ + e- <=> LiCoO2
+%
+% where CoO2 are cobalt oxide, Li+ are lithium ion, e- are electrons,
+% and LiCoO2 are lithium cobalt oxide.
+%
+% While discharging, we read the chemical reaction from left to right,
+% the cobalt oxide (CoO2) recombine with the lithium ion (Li+) and electron
+% (e-) to form lithium cobalt oxide (LiCoO2).
+%
+% While charging, we read the chemical reaction from right to left,
+% the lithium cobalt oxide (LiCoO2) dissociate into cobal oxide (CoO2), lithium
+% ion (Li+) and electron (e-).
+%
+% How is it connected?
+% 
+% The positive electrode presents an internal and an external terminal. The
+% external terminal is connected to the system powered by the battery. The 
+% internal terminal is connected to electrolyte.
+
+
+nodes
+    External = custombattery.battery; % External
+    Internal = custombattery.battery; % Internal
+end
+
+annotations
+    External : Side = top;
+    Internal : Side = right;
+end
+
+variables (Access = private)
+    C    = {0,'A*hr'};
+    SOC  = {0,'1'};
+end
+
+variables (ExternalAccess = none)
+    iExt = {0,'A'};
+    iInt = {0,'A'};
+    v    = {0,'V'};
+    qInt = {0,'mol/s'};
+    qExt = {0,'mol/s'};
+end
+
+parameters (ExternalAccess = none)
+    SOCr = {[0:0.01:1]','1'};
+    OCVr = {[2.5496;2.7228;2.8309;2.9034;2.9493;2.9957;3.0428;3.0889;...
+        3.1324;3.1748;3.2126;3.2473;3.2781;3.3061;3.3321;3.3535;3.3737;...
+        3.3908;3.4055;3.4208;3.4320;3.4417;3.4498;3.4581;3.4665;3.4750;...
+        3.4826;3.4896;3.4966;3.5042;3.5126;3.5212;3.5294;3.5368;3.5442;...
+        3.5515;3.5589;3.5665;3.5737;3.5805;3.5877;3.5947;3.6006;3.6066;...
+        3.6126;3.6185;3.6244;3.6304;3.6367;3.6431;3.6497;3.6568;3.6640;...
+        3.6713;3.6790;3.6866;3.6942;3.7021;3.7100;3.7179;3.7258;3.7343;...
+        3.7429;3.7516;3.7601;3.7681;3.7761;3.7841;3.7921;3.7997;3.8071;...
+        3.8147;3.8231;3.8314;3.8396;3.8465;3.8532;3.8600;3.8669;3.8740;...
+        3.8812;3.8890;3.8976;3.9063;3.9147;3.9242;3.9346;3.9449;3.9552;...
+        3.9654;3.9757;3.9857;3.9957;4.0062;4.0168;4.0261;4.0339;4.0415;...
+        4.0482;4.0570;4.1879],'V'};
+    IRr  = {[0.1475;0.1629;0.1551;0.1356;0.1129;0.1021;0.0956;0.0924;...
+        0.0901;0.0888;0.0894;0.0894;0.0899;0.0901;0.0913;0.0912;0.0919;...
+        0.0916;0.0911;0.0914;0.0903;0.0892;0.0875;0.0868;0.0862;0.0855;...
+        0.0845;0.0833;0.0822;0.0814;0.0812;0.0811;0.0809;0.0806;0.0802;...
+        0.0797;0.0795;0.0794;0.0791;0.0788;0.0786;0.0783;0.0777;0.0771;...
+        0.0764;0.0757;0.0751;0.0743;0.0734;0.0727;0.0721;0.0717;0.0713;...
+        0.0710;0.0709;0.0706;0.0702;0.0700;0.0692;0.0682;0.0673;0.0669;...
+        0.0668;0.0666;0.0664;0.0661;0.0658;0.0656;0.0655;0.0653;0.0650;...
+        0.0649;0.0652;0.0654;0.0657;0.0654;0.0651;0.0648;0.0645;0.0643;...
+        0.0641;0.0642;0.0646;0.0650;0.0651;0.0653;0.0655;0.0658;0.0660;...
+        0.0663;0.0665;0.0663;0.0662;0.0664;0.0667;0.0665;0.0654;0.0642;...
+        0.0614;0.0580;0.0284],'Ohm'};
+    p0   = {0,'1'};
+    C0   = {2.8,'A*hr'};
+end
+
+equations (Initial = true)
+    C == C0;
+end
+
+intermediates
+    i = iExt + iInt;
+    q = i/{96320,'A/(mol/s)'}; 
+end
+
+intermediates (ExternalAccess = none)
+    v0 = tablelookup(SOCr,OCVr,SOC,interpolation = linear, extrapolation = nearest);
+    IR = tablelookup(SOCr,IRr,SOC,interpolation = linear, extrapolation = nearest);
+end
+
+branches
+    iExt : External.i -> *;
+    iInt : Internal.i -> *;
+    qInt : Internal.q -> *;
+    qExt : External.q -> *;
+end
+
+equations
+    if C > 0
+        v == iExt*IR;
+        External.v == v0 - v;
+        Internal.v == v0;
+    else
+        v == 0;
+        External.v == 0
+        Internal.v == 0
+    end
+    i == -der(C);
+    qInt == q;
+    qExt == {0,'mol/s'};
+    SOC == C/C0;
+end
+
+
+end
