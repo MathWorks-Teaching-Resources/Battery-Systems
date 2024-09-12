@@ -108,7 +108,9 @@ classdef SolnSmokeTests < matlab.unittest.TestCase
 
         function closeAllFigure(testCase)
             close all % Close all figure
-            bdclose all % Close all simulink
+            if any(matlab.addons.installedAddons().Name == "Simulink")
+                bdclose all % Close all simulink
+            end
         end
 
         function RemovePath(testCase)

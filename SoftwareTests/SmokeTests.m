@@ -42,11 +42,9 @@ classdef SmokeTests < matlab.unittest.TestCase
             cd(RootFolder)
             Filename = string(File);
 
-            % Initialize test:
-            %   - Pre-populate workspace
-            %   - Overload functions
-            InitFile = RetrieveInitFile(testCase,Filename);
-            run(InitFile);
+            % Pre-test:
+            PreFiles = CheckPreFile(testCase,Filename);
+            run(PreFiles);
 
             % Run SmokeTest
             disp(">> Running " + Filename);
@@ -54,9 +52,13 @@ classdef SmokeTests < matlab.unittest.TestCase
                 run(fullfile("Scripts",Filename));
             catch ME %#ok<*UNRCH>
                 if ~any(strcmp(ME.identifier,KnownIssuesID))
-                    testCase.verifyTrue(false,ME.message);
+                    rethrow(ME)
                 end
             end
+
+            % Post-test:
+            PostFiles = CheckPostFile(testCase,Filename);
+            run(PostFiles)
 
             % Log every figure created during run
             Figures = findall(groot,'Type','figure');
@@ -83,20 +85,34 @@ classdef SmokeTests < matlab.unittest.TestCase
 
     methods (Access = private)
 
-        function y = RetrieveInitFile(testCase,Filename)
-            InitFile = "Init"+replace(Filename,".mlx",".m");
-            InitFilePath = fullfile(currentProject().RootFolder,"SoftwareTests","InitFiles",InitFile);
-            if ~isfolder(fullfile(currentProject().RootFolder,"SoftwareTests/InitFiles"))
-                mkdir(fullfile(currentProject().RootFolder,"SoftwareTests/InitFiles"))
+        function y = CheckPreFile(testCase,Filename)
+            PreFile = "Pre"+replace(Filename,".mlx",".m");
+            PreFilePath = fullfile(currentProject().RootFolder,"SoftwareTests","PreFiles",PreFile);
+            if ~isfolder(fullfile(currentProject().RootFolder,"SoftwareTests/PreFiles"))
+                mkdir(fullfile(currentProject().RootFolder,"SoftwareTests/PreFiles"))
             end
-            if ~isfile(InitFilePath)
-                writelines("%  Initialization script for "+Filename,InitFilePath)
-                writelines("% ---- Known Issues     -----",InitFilePath,'WriteMode','append');
-                writelines("KnownIssuesID = "+char(34)+char(34)+";",InitFilePath,'WriteMode','append');
-                writelines("% ---- Pre-run commands -----",InitFilePath,'WriteMode','append');
-                writelines(" ",InitFilePath,'WriteMode','append');
+            if ~isfile(PreFilePath)
+                writelines("%  Pre-run script for "+Filename,PreFilePath)
+                writelines("% ---- Known Issues     -----",PreFilePath,'WriteMode','append');
+                writelines("KnownIssuesID = "+char(34)+char(34)+";",PreFilePath,'WriteMode','append');
+                writelines("% ---- Pre-run commands -----",PreFilePath,'WriteMode','append');
+                writelines(" ",PreFilePath,'WriteMode','append');
             end
-            y = InitFilePath;
+            y = PreFilePath;
+        end
+
+        function y = CheckPostFile(testCase,Filename)
+            PostFile = "Post"+replace(Filename,".mlx",".m");
+            PostFilePath = fullfile(currentProject().RootFolder,"SoftwareTests","PostFiles",PostFile);
+            if ~isfolder(fullfile(currentProject().RootFolder,"SoftwareTests/PostFiles"))
+                mkdir(fullfile(currentProject().RootFolder,"SoftwareTests/PostFiles"))
+            end
+            if ~isfile(PostFilePath)
+                writelines("%  Post-run script for "+Filename,PostFilePath)
+                writelines("% ---- Post-run commands -----",PostFilePath,'WriteMode','append');
+                writelines(" ",PostFilePath,'WriteMode','append');
+            end
+            y = PostFilePath;
         end
 
     end
