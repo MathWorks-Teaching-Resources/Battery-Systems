@@ -46,6 +46,7 @@ jobs:
         with:
           name: TestResults
           path: ./SoftwareTests/TestResults_${{ matrix.MATLABVersion }}.txt
+          overwrite: true
 
   badge:
     if: ${{ always() }}
