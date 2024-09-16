@@ -2,7 +2,7 @@
 # <span style="color:rgb(213,80,0)">Battery Systems: introduction</span>
 
 
-[![View on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/XXXXX-PROJECTNAME) or [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=README.mlx)
+[![View on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/172770-battery-systems) or [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=README.mlx)
 
 ![MATLAB Versions Tested](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FMathWorks-Teaching-Resources%2FBattery-Systems%2Frelease%2FImages%2FTestedWith.json)
 
@@ -58,30 +58,37 @@ This module uses all of following products:
 
  *If you are viewing this in a version of MATLAB prior to R2023b, you can view the learning outcomes for each script* [*here*](https://www.mathworks.com/matlabcentral/fileexchange/Battery-Systems)
 
-## [**HowDoBatteryWork.mlx**](Scripts/HowDoBatteryWork.mlx)
-| <img src="Images/image_3.svg" width="171" alt="image_3.svg"> <br>  | **In this script, students will...** <br> <br>-  Learn about the different component in a battery. <br> <br>-  Learn how battery work. <br> <br>-  Build a functional model of a battery. <br>   |
+## [HowDoBatteryWork.mlx](Scripts/HowDoBatteryWork.mlx)
+| | |
 | :-- | :-- |
+| <img src="Images/image_3.svg" width="171" alt="image_3.svg"> | **In this script, students will...** <br> - Learn about the different components of a battery. <br> -  Learn how batteries work. <br> - Build a functional model of a battery. <br>   |
 
-## [**EVBatteryDesign.mlx**](Scripts/EVBatteryDesign.mlx) 
-| <img src="Images/image_4.svg" width="157" alt="image_4.svg"> <br>  | **In this script, students will...** <br> <br>-  be able to understand battery configuration (parallel, series). <br> <br>-  determine power and energy requirement for a battery pack. <br> <br>-  validate their design through simulation. <br>   |
-| :-- | :-- |
 
-## [**BatteryModeling.mlx**](FunctionLibrary/BatteryModeling.mlx)
-| <img src="Images/energy-storage.svg" width="171" alt="energy-storage.svg"> <br>  | **In this script, students will...** <br> <br>-  learn about battery modeling principles. <br> <br>-  conduct experimental observations and data analysis. <br> <br>-  develop and calibrate an equivalent circuit model for a battery cell. <br>   |
+## [EVBatteryDesign.mlx](Scripts/EVBatteryDesign.mlx) 
+| | |
 | :-- | :-- |
+| <img src="Images/image_4.svg" width="157" alt="image_4.svg">  | **In this script, students will...** <br> -  Be able to understand battery configuration (parallel, series). <br> -  Determine power and energy requirement for a battery pack. <br> -  Validate their design through simulation. <br>   |
 
-## [**ThermalModeling.mlx**](Scripts/ThermalModeling.mlx)
-| <img src="Images/Thermal.svg" width="171" alt="Thermal.svg"> <br>  | **In this script, students will...** <br> <br>-  learn about battery thermal modeling principles. <br> <br>-  conduct experimental observations and data analysis. <br> <br>-  develop and calibrate a thermal model for a battery cell. <br>   |
+## [BatteryModeling.mlx](FunctionLibrary/BatteryModeling.mlx)
+| | |
 | :-- | :-- |
+| <img src="Images/energy-storage.svg" width="171" alt="energy-storage.svg"> <br>  | **In this script, students will...** <br>-  Learn about battery modeling principles. <br>-  Conduct experimental observations and data analysis. <br>-  Develop and calibrate an equivalent circuit model for a battery cell. <br>   |
 
-## [**BatteryManagementSystem.mlx**](FunctionLibrary/BatteryManagementSystem.mlx)
-| <img src="Images/SoC.png" width="171" alt="SoC.png"> <br>  | **In this script, students will...** <br> <br>-  learn about constant voltage and constant current charging. <br> <br>-  develop battery estimator of charge. <br>   |
+## [ThermalModeling.mlx](Scripts/ThermalModeling.mlx)
+| | |
 | :-- | :-- |
+| <img src="Images/Thermal.svg" width="171" alt="Thermal.svg"> <br>  | **In this script, students will...** <br> - Learn about battery thermal modeling principles. <br>-  Develop computation model of battery heating and cooling. <br>- Compare different heating and cooling scenario. <br>   |
+
+## [BatteryManagementSystem.mlx](FunctionLibrary/BatteryManagementSystem.mlx)
+| | |
+| :-- | :-- |
+| <img src="Images/SoC.png" width="171" alt="SoC.png"> <br>  | **In this script, students will...** <br>-  Learn about constant voltage and constant current charging. <br>-  Develop algorithms to estimate a battery state of charge (SoC). <br>   |
 
 # Related Courseware Modules
 ## [ DC Circuit Analysis](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/DC-Circuit-Analysis&project=DCCircuitAnalysis.prj)
-| <img src="Images/image_8.png" width="171" alt="image_8.png"> <br>  | **Available on:** <br> [<img src="Images/OpenInFX.png" width="91" alt="OpenInFX.png">](https://www.mathworks.com/matlabcentral/fileexchange/103375-dc-circuit-analysis) <br> [<img src="Images/OpenInMO.png" width="136" alt="OpenInMO.png">](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/DC-Circuit-Analysis&project=DCCircuitAnalysis.prj)  <br> [GitHub](https://github.com/MathWorks-Teaching-Resources/DC-Circuit-Analysis)  <br>   |
+| | |
 | :-- | :-- |
+| <img src="Images/image_8.png" width="171" alt="image_8.png"> <br>  | **Available on:** <br> [<img src="Images/OpenInFX.png" width="91" alt="OpenInFX.png">](https://www.mathworks.com/matlabcentral/fileexchange/103375-dc-circuit-analysis) <br> [<img src="Images/OpenInMO.png" width="136" alt="OpenInMO.png">](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/DC-Circuit-Analysis&project=DCCircuitAnalysis.prj)  <br> [GitHub](https://github.com/MathWorks-Teaching-Resources/DC-Circuit-Analysis)  <br>   |
 
 
 Or feel free to explore our other [modular courseware content](https://www.mathworks.com/matlabcentral/fileexchange/?q=tag%3A%22courseware+module%22&sort=downloads_desc_30d).
@@ -96,4 +103,5 @@ Looking for more? Find an issue? Have a suggestion? Please contact the [MathWork
 
  *©* Copyright 2024 The MathWorks™, Inc
 
-
+
+
