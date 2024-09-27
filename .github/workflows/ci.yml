@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       # Sets up a display server
       - name: Start display server
@@ -57,7 +57,7 @@ jobs:
     steps: 
 
       # Checks-out your repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       # Sets up R2023b
       - name: Setup MATLAB
@@ -75,7 +75,7 @@ jobs:
 
       # Create the test results badge
       - name: Run CreateBadge
-        uses: matlab-actions/run-command@v1
+        uses: matlab-actions/run-command@v2
         with:
           command: openProject(pwd); CreateBadge;
 
