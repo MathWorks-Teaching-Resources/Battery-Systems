@@ -6,40 +6,41 @@ classdef SolnSmokeTests < matlab.unittest.TestCase
     end
 
     properties (ClassSetupParameter)
-        Project = {char(currentProject().Name)};
+        Project = {currentProject()};
     end
 
     properties (TestParameter)
-        SolnScripts;
+        File;
     end
 
     methods (TestParameterDefinition,Static)
 
-        function SolnScripts = GetScriptName(Project)
-            SolnScripts = dir(fullfile(currentProject().RootFolder,...
-                "InstructorResources","Solutions","*.mlx"));
-            SolnScripts = {SolnScripts.name};
+        function File = GetScriptName(Project)
+            % Retrieve student template files:
+            RootFolder = Project.RootFolder;
+            File = dir(fullfile(RootFolder,"Scripts","*.mlx"));
+            File = {File.name}; 
         end
 
     end
 
     methods (TestClassSetup)
 
-        function setUpPath(testCase,Project)
+        function SetUpPath(testCase,Project)
+            % Navigate to project root folder:
+            testCase.RootFolder = Project.RootFolder;
+            cd(testCase.RootFolder)
 
-            try
-                currentProject;
-                testCase.RootFolder = currentProject().RootFolder;
-                cd(testCase.RootFolder)
-                testCase.isSolnOnPath = exist("Solutions","dir");
-                if testCase.isSolnOnPath == 0
-                    addpath(fullfile(testCase.RootFolder,"InstructorResources","Solutions"))
-                end
-            catch ME
-                warning("Load project prior to run tests")
-                rethrow(ME)
+            % Check that solutions are on path:
+            testCase.isSolnOnPath = isfolder("Solutions");
+            if testCase.isSolnOnPath == 0
+                addpath(fullfile(testCase.RootFolder,"InstructorResources","Solutions"))
             end
 
+            % Close the StartUp app if still open:
+            delete(findall(groot,'Name','StartUp App'))
+
+            % Log MATLAB version:
             testCase.log("Running in " + version)
 
         end % function setUpPath
@@ -48,78 +49,92 @@ classdef SolnSmokeTests < matlab.unittest.TestCase
 
     methods(Test)
 
-        % Test that all the Script files have solution versions
-        function ExistSolns(testCase)
-            files = dir(fullfile(testCase.RootFolder,"Scripts","*.mlx"));
-            for iTestSoln = 1:size(files)
-                SolnFileName = extractBefore(files(iTestSoln).name,".mlx") + "Soln.mlx";
-                SolnFilePath = fullfile(testCase.RootFolder,...
-                    "InstructorResources"+filesep+"Solutions",SolnFileName);
-                assert(exist(SolnFilePath,"file"), "SolnTest:FileNotFound", SolnFileName + " doesn't exist");
-            end
+        % Check that solutions files exist for each of the student
+        % templates
+        function ExistSolns(testCase,File)
+            SolutionName = replace(string(File),".mlx","Soln.mlx");
+            assert(exist(SolutionName,"file"),"Missing solutions for "+File);
         end  
-        function SmokeRun(testCase,SolnScripts)
-            
-            Filename = string(SolnScripts);
-            switch (Filename)
-                case "ClassificationSoln.mlx"
-                    rng(123)
-                    SimpleSmokeTest(testCase,Filename)
-                otherwise
-                    SimpleSmokeTest(testCase,Filename)
+
+
+        function SmokeRun(testCase,File)
+
+            % Navigate to project root folder:
+            cd(testCase.RootFolder)
+            FileToRun = replace(string(File),".mlx","Soln.mlx");
+
+            % Pre-test:
+            PreFiles = CheckPreFile(testCase,FileToRun);
+            run(PreFiles);
+
+            % Run SmokeTest
+            disp(">> Running " + FileToRun);
+            try
+                run(fullfile("InstructorResources","Solutions",FileToRun));
+            catch ME
+                if ~any(strcmp(ME.identifier,KnownIssuesID))
+                    rethrow(ME)
+                end
             end
+
+            % Post-test:
+            PostFiles = CheckPostFile(testCase,FileToRun);
+            run(PostFiles)
+
+            % Log every figure created during run:
+            Figures = findall(groot,'Type','figure');
+            Figures = flipud(Figures);
+            if ~isempty(Figures)
+                for f = 1:size(Figures,1)
+                    if ~isempty(Figures(f).Number)
+                        FigDiag = matlab.unittest.diagnostics.FigureDiagnostic(Figures(f),'Formats','png');
+                        log(testCase,1,FigDiag);
+                    end
+                end
+            end
+
+            % Close all figures and Simulink models
+            close all force
+            if any(matlab.addons.installedAddons().Name == "Simulink")
+                bdclose all
+            end
+
         end
+
     end
     
     methods (Access = private)
 
-        function SimpleSmokeTest(testCase,Filename)
-            SolnFolder = fullfile(testCase.RootFolder,"InstructorResources","Solutions");
-            cd(SolnFolder)
-            disp(">> Running " + Filename);
-
-            try
-                run(fullfile(Filename));
-            catch ME
-                testCase.verifyTrue(false,ME.message);
+        function Path = CheckPreFile(testCase,Filename)
+            PreFile = "Pre"+replace(Filename,".mlx",".m");
+            PreFilePath = fullfile(currentProject().RootFolder,"SoftwareTests","PreFiles",PreFile);
+            if ~isfolder(fullfile(currentProject().RootFolder,"SoftwareTests/PreFiles"))
+                mkdir(fullfile(currentProject().RootFolder,"SoftwareTests/PreFiles"))
             end
-            
-            
-            % % Log the opened figures to the test reports
-            % Figures = findall(groot,'Type','figure');
-            % Figures = flipud(Figures);
-            % if ~isempty(Figures)
-            %     for f = 1:size(Figures,1)
-            %         FigDiag = matlab.unittest.diagnostics.FigureDiagnostic(Figures(f));
-            %         log(testCase,1,FigDiag);
-            %     end
-            % end
-            % close all
-
-            % for iTestSoln = 1:size(files)
-            %     disp("Running " + files(iTestSoln).name + "...")
-            %     run(files(iTestSoln).name)
-            %     disp("Finished "+ files(iTestSoln).name)
-            % end
+            if ~isfile(PreFilePath)
+                writelines("%  Pre-run script for "+Filename,PreFilePath)
+                writelines("% ---- Known Issues     -----",PreFilePath,'WriteMode','append');
+                writelines("KnownIssuesID = "+char(34)+char(34)+";",PreFilePath,'WriteMode','append');
+                writelines("% ---- Pre-run commands -----",PreFilePath,'WriteMode','append');
+                writelines(" ",PreFilePath,'WriteMode','append');
+            end
+            Path = PreFilePath;
         end
+
+        function Path = CheckPostFile(testCase,Filename)
+            PostFile = "Post"+replace(Filename,".mlx",".m");
+            PostFilePath = fullfile(currentProject().RootFolder,"SoftwareTests","PostFiles",PostFile);
+            if ~isfolder(fullfile(currentProject().RootFolder,"SoftwareTests/PostFiles"))
+                mkdir(fullfile(currentProject().RootFolder,"SoftwareTests/PostFiles"))
+            end
+            if ~isfile(PostFilePath)
+                writelines("%  Post-run script for "+Filename,PostFilePath)
+                writelines("% ---- Post-run commands -----",PostFilePath,'WriteMode','append');
+                writelines(" ",PostFilePath,'WriteMode','append');
+            end
+            Path = PostFilePath;
+        end
+
     end
-
-    methods (TestClassTeardown)
-
-        function closeAllFigure(testCase)
-            close all % Close all figure
-            if any(matlab.addons.installedAddons().Name == "Simulink")
-                bdclose all % Close all simulink
-            end
-        end
-
-        function RemovePath(testCase)
-            if testCase.isSolnOnPath == 0
-                rmpath(fullfile(testCase.RootFolder,"InstructorResources",...
-                    "Solutions"))
-            end
-        end
-
-    end % methods (TestClassTeardown)
 
 end

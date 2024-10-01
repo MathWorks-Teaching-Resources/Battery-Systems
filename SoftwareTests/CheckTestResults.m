@@ -16,7 +16,7 @@ classdef CheckTestResults < matlab.unittest.TestCase
 
         function Version = GetResults(Project)
             RootFolder = currentProject().RootFolder;
-            Version = dir(fullfile(RootFolder,"SoftwareTests","TestResults*.txt"));
+            Version = dir(fullfile(RootFolder,"public","TestResults*.txt"));
             Version = extractBetween([Version.name],"TestResults_",".txt");
         end
 
@@ -37,9 +37,11 @@ classdef CheckTestResults < matlab.unittest.TestCase
     methods(Test)
 
         function CheckResults(testCase,Version)
-            File = fullfile("SoftwareTests","TestResults_"+Version+".txt");
+            File = fullfile("public","TestResults_"+Version+".txt");
             Results = readtable(File,TextType="string");
-            testCase.verifyTrue(all(Results.Passed));
+            if ~all(Results.Passed)
+                error("Some of the tests did not pass.")
+            end
         end
 
     end

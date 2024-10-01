@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TestResults_${{ matrix.MATLABVersion }}
-          path: ./SoftwareTests/TestResults_${{ matrix.MATLABVersion }}.txt
+          path: ./public/TestResults_${{ matrix.MATLABVersion }}.txt
           overwrite: true
 
   badge:
