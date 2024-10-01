@@ -69,7 +69,7 @@ jobs:
       - name: Download All TestResults
         uses: actions/download-artifact@v4
         with:
-          path: SoftwareTests
+          path: public
           pattern: TestResults_*
           merge-multiple: true
 

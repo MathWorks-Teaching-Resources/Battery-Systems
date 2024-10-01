@@ -4,7 +4,7 @@ classdef CheckTestResults < matlab.unittest.TestCase
     end
 
     properties (ClassSetupParameter)
-        Project = {''};
+        Project = {currentProject()};
     end
 
     properties (TestParameter)
@@ -15,7 +15,7 @@ classdef CheckTestResults < matlab.unittest.TestCase
     methods (TestParameterDefinition,Static)
 
         function Version = GetResults(Project)
-            RootFolder = currentProject().RootFolder;
+            RootFolder = Project.RootFolder;
             Version = dir(fullfile(RootFolder,"public","TestResults*.txt"));
             Version = extractBetween([Version.name],"TestResults_",".txt");
         end
