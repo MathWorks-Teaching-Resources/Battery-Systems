@@ -56,9 +56,7 @@ classdef SmokeTests < matlab.unittest.TestCase
             try
                 run(fullfile("Scripts",FileToRun));
             catch ME 
-                if ~any(strcmp(ME.identifier,KnownIssuesID))
-                    rethrow(ME)
-                end
+                
             end
 
             % Post-test:
@@ -81,6 +79,13 @@ classdef SmokeTests < matlab.unittest.TestCase
             close all force
             if any(matlab.addons.installedAddons().Name == "Simulink")
                 bdclose all
+            end
+
+            % Rethrow error if any
+            if exist("ME","var")
+                if ~any(strcmp(ME.identifier,KnownIssuesID))
+                    rethrow(ME)
+                end
             end
 
         end

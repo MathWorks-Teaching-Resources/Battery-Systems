@@ -72,9 +72,7 @@ classdef SolnSmokeTests < matlab.unittest.TestCase
             try
                 run(fullfile("InstructorResources","Solutions",FileToRun));
             catch ME
-                if ~any(strcmp(ME.identifier,KnownIssuesID))
-                    rethrow(ME)
-                end
+
             end
 
             % Post-test:
@@ -97,6 +95,13 @@ classdef SolnSmokeTests < matlab.unittest.TestCase
             close all force
             if any(matlab.addons.installedAddons().Name == "Simulink")
                 bdclose all
+            end
+
+            % Rethrow error if any
+            if exist("ME","var")
+                if ~any(strcmp(ME.identifier,KnownIssuesID))
+                    rethrow(ME)
+                end
             end
 
         end
