@@ -97,9 +97,6 @@ classdef ProjectStartupApp < matlab.apps.AppBase
 
         % Code that executes after component creation
         function startupFcn(app)
-            
-            % Move gui to center of screen
-            movegui(app.UIFigure,"center")
 
             % Switch tab to review if has not been reviewed yet
             if isfile(fullfile("Utilities","ProjectSettings.mat"))

@@ -1,10 +1,10 @@
 
-# <span style="color:rgb(213,80,0)">Battery Systems: introduction</span>
+# <span style="color:rgb(213,80,0)">Battery Systems: introduction </span>
 
 
 [![View on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/172770-battery-systems-introduction) or [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=README.mlx)
 
-[![MATLAB Versions Tested](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FMathWorks-Teaching-Resources%2FBattery-Systems%2Frelease%2FImages%2FTestedWith.json)](https://mathworks-teaching-resources.github.io/Battery-Systems/)
+![MATLAB Versions Tested](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FMathWorks-Teaching-Resources%2FBattery-Systems%2Frelease%2FImages%2FTestedWith.json)
 
 **Curriculum Module**
 
@@ -39,7 +39,7 @@ Use the [<img src="Images/OpenInMO.png" width="136" alt="OpenInMO.png">](https:/
 
 ### **On Desktop:**
 
-Download or clone this repository. Open MATLAB, navigate to the folder containing these scripts, and double\-click [BatterySystem.prj](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj). It will add the appropriate files to your MATLAB path and open an app that asks you where you would like to start. 
+Download or clone this repository. Open MATLAB, navigate to the folder containing these scripts, and double\-click [BatterySystem.prj](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=README.mlx). It will add the appropriate files to your MATLAB path and open an app that asks you where you would like to start. 
 
 
 Ensure you have all the required products (listed below) installed. If you need to include a product, add it using the Add\-On Explorer. To install an add\-on, go to the **Home** tab and select  <img src="Images/AddOnsIcon.png" width="16" alt="AddOnsIcon.png"> **Add-Ons** > **Get Add-Ons**. 
@@ -59,31 +59,31 @@ This module uses all of the following products:
 -  Statistics and Machine Learning Toolbox™ 
 
 # Scripts
-## [**HowDoBatteryWork.mlx**](Scripts/HowDoBatteryWork.mlx)
+## [**EVBatteryDesign.mlx**](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=Scripts/EVBatteryDesign.mlx) 
 |      |      |
 | :-- | :-- |
-| <img src="Images/image_3.svg" width="171" alt="image_3.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Learn about the different components of a battery. <br> $\bullet$ Learn how batteries work. <br> $\bullet$ Build a functional model of a battery. <br>   |
+| <img src="Images/image_3.svg" width="157" alt="image_3.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Be able to understand battery configuration (parallel, series). <br> $\bullet$ Determine power and energy requirements for a battery pack. <br> $\bullet$ Validate their design through simulation. <br>   |
 |      |       |
 
-## [**EVBatteryDesign.mlx**](Scripts/EVBatteryDesign.mlx) 
+## [**HowDoBatteryWork.mlx**](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=Scripts/HowDoBatteryWork.mlx)
 |      |      |
 | :-- | :-- |
-| <img src="Images/image_4.svg" width="157" alt="image_4.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Be able to understand battery configuration (parallel, series). <br> $\bullet$ Determine power and energy requirements for a battery pack. <br> $\bullet$ Validate their design through simulation. <br>   |
+| <img src="Images/image_4.svg" width="171" alt="image_4.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Learn about the different components of a battery. <br> $\bullet$ Learn how batteries work. <br> $\bullet$ Build a functional model of a battery. <br>   |
 |      |       |
 
-## [**BatteryModeling.mlx**](FunctionLibrary/BatteryModeling.mlx)
+## [**BatteryModeling.mlx**](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=&file=FunctionLibrary/BatteryModeling.mlx)
 |      |      |
 | :-- | :-- |
 | <img src="Images/energy-storage.svg" width="171" alt="energy-storage.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Learn about battery modeling principles. <br> $\bullet$ Conduct experimental observations and data analysis. <br> $\bullet$ Develop and calibrate an equivalent circuit model for a battery cell. <br>   |
 |      |       |
 
-## [**ThermalModeling.mlx**](Scripts/ThermalModeling.mlx)
+## [**ThermalModeling.mlx**](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=Scripts/ThermalModeling.mlx)
 |      |      |
 | :-- | :-- |
 | <img src="Images/Thermal.svg" width="171" alt="Thermal.svg"> <br>  | **In this script, students will...** <br> $\bullet$ Learn about battery thermal modeling principles. <br> $\bullet$ Develop a computation model of battery heating and cooling. <br> $\bullet$ Compare different heating and cooling scenarios. <br>   |
 |      |       |
 
-## [**BatteryManagementSystem.mlx**](FunctionLibrary/BatteryManagementSystem.mlx)
+## [**BatteryManagementSystem.mlx**](https://matlab.mathworks.com/open/github/v1?repo=MathWorks-Teaching-Resources/Battery-Systems&project=BatterySystem.prj&file=&file=FunctionLibrary/BatteryManagementSystem.mlx)
 |      |      |
 | :-- | :-- |
 | <img src="Images/SoC.png" width="171" alt="SoC.png"> <br>  | **In this script, students will...** <br> $\bullet$ Learn about constant voltage and constant current charging. <br> $\bullet$ Develop algorithms to estimate a battery state of charge (SoC). <br>   |
