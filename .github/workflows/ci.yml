@@ -8,6 +8,7 @@ on:
     branches: [ release ]
   workflow_dispatch:
 
+# Add permission to write GitHub pages
 permissions:
   contents: write
   pages: write
@@ -18,8 +19,10 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        MATLABVersion: [R2024a,R2024b]
+        MATLABVersion: [R2024b,R2025a,R2025b]
     runs-on: ubuntu-latest
+    env:
+      LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
     steps:
       # Checks-out your repository
       - uses: actions/checkout@v4
@@ -47,6 +50,7 @@ jobs:
 
       # Upload the test results as artifact
       - name: Upload TestResults
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: TestResults_${{ matrix.MATLABVersion }}
@@ -77,13 +81,14 @@ jobs:
           path: public
           pattern: TestResults_*
           merge-multiple: true
-
+          
       # Create the test results badge
       - name: Run PostSmokeTest
         uses: matlab-actions/run-command@v2
         with:
           command: openProject(pwd); PostSmokeTest;
-
+      
+      # Deploy reports to GitHub pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload pages artifact

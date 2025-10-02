@@ -47,5 +47,9 @@ codegen/
 # Project settings
 Utilities/ProjectSettings.mat
 
+# Build tool trace
+.buildtool/
+derived/
+
 # GitLab page folder
 public/
