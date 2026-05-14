@@ -79,7 +79,7 @@ jobs:
         Releases: [R2025b, R2026a]
     runs-on: ubuntu-latest
     env:
-      MATLAB_PRODUCTS:>
+      MATLAB_PRODUCTS: >
         Curve_Fitting_Toolbox
         Simscape
         Simscape_Battery
